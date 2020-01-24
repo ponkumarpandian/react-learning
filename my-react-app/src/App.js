@@ -1,6 +1,10 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavBar from "./components/navebar";
+import Home from "./components/home";
 import Products from "./components/products";
+import About from "./components/about";
+import Cart from "./components/productsCart";
 import "./App.css";
 
 class App extends Component {
@@ -62,20 +66,31 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <NavBar
-          totalProducts={this.state.products.filter(p => p.quantity > 0).length}
-        />
-        <main className="container">
-          <Products
-            products={this.state.products}
-            onReset={this.handleReset}
-            onDelete={this.handleDelete}
-            onIncrement={this.handleIncrement}
-            onDecrement={this.handleDecrement}
+      <Router>
+        <div>
+          <NavBar
+            totalProducts={
+              this.state.products.filter(p => p.quantity > 0).length
+            }
           />
-        </main>
-      </React.Fragment>
+          <main className="container">
+            <Switch>
+              <Route path="/" exact component={Home}></Route>
+              <Route path="/about" component={About}></Route>
+              <Route path="/products" component={Products}></Route>
+              <Route path="/cart">
+                <Cart
+                  products={this.state.products}
+                  onReset={this.handleReset}
+                  onDelete={this.handleDelete}
+                  onIncrement={this.handleIncrement}
+                  onDecrement={this.handleDecrement}
+                />
+              </Route>
+            </Switch>
+          </main>
+        </div>
+      </Router>
     );
   }
 }
