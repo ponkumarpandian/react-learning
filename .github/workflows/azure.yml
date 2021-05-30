@@ -29,6 +29,9 @@ jobs:
   build-and-deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{env.WORKING-DIRECTORY}}
     environment: production
     steps:
      
@@ -41,7 +44,6 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
-        working-directory: ${{env.WORKING-DIRECTORY}}
         npm install
         npm run build --if-present
         npm run test --if-present
